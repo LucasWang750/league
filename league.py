@@ -1,7 +1,9 @@
 #! python3
 
 
-import pyautogui, sys, time, random, os, PIL
+import pyautogui, sys, time, random, os
+from PIL import ImageGrab, Image
+
 print(pyautogui.size())
 print(pyautogui.position())
 icon = pyautogui.locateCenterOnScreen('./work2.png')
@@ -13,11 +15,9 @@ time.sleep(1)
 
 #in-game
 
-centerX = 720
-centerY = 450
+centerX = 660
+centerY = 380
 
-
-print('Press Ctrl-C to quit.')
 def screenGrab():
     box = ()
     im = PIL.ImageGrab.grab()
@@ -32,44 +32,71 @@ def moveLeft():
     move(-100,0)
 
 def moveRight():
-    move(50,0)
+    move(100,0)
+
 def moveUp():
     move(0,-100)
+
 def moveDown():
-    move(0,50)
+    move(0,100)
 
-def moveRandom():
-    timeout = time.time() + random.randint(1,10)
-    num = random.randint(1,4)
-    if num == 1:
-        while True:
-            if time.time() > timeout:
-                break
-            moveLeft()
-    elif num == 2:
-        while True:
-            if time.time() > timeout:
-                break
-            moveRight()
-    elif num == 3:
-        while True:
-            if time.time() > timeout:
-                break
-            moveUp()
-    else:
-        while True:
-            if time.time() > timeout:
-                break
-            moveDown()
-        
-screenGrab()
 
-try:
-    while True:
-        moveRandom()
-except KeyboardInterrupt:
-    print('\n')
+def clickShop():
+    pyautogui.press('b')
+    time.sleep(9)
+    pyautogui.press('p')
 
+def buyItem(name):
+    clickShop()
+    pyautogui.moveTo(centerX, centerY-250)
+    pyautogui.mouseDown(); pyautogui.mouseUp()
+    pyautogui.write(name)
+    pyautogui.moveTo(centerX-400,centerY-200,1)
+    pyautogui.mouseDown(); pyautogui.mouseUp()
+    pyautogui.mouseDown(); pyautogui.mouseUp()
+
+def attackMove():
+    pyautogui.press('a')
+
+def pressQ():
+    pyautogui.press('q')
+
+def pressW():
+    pyautogui.press('w')
+
+def pressE():
+    pyautogui.press('e')
+
+def pressR():
+    pyautogui.press('r')
+
+def pressD():
+    pyautogui.press('d')
+
+def pressF():
+    pyautogui.press('f')
+
+def getScreen():
+    screen = ImageGrab.grab()
+    os.chdir('./league')
+    screen.save("screenshot" + str(int(time.time())) + ".png" , "PNG")
+    
+
+moveLeft()
+moveLeft()
+moveRight()
+moveRight()
+moveUp()
+moveUp()
+moveDown()
+moveDown()
+buyItem('Stormrazor')
+
+def main():
+    getScreen()
+
+if __name__ == "__main__":
+    main()
 
 
 
